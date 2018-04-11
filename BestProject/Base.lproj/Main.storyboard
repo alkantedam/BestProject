@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -213,16 +214,85 @@
                     <view key="view" contentMode="scaleToFill" id="MPR-6d-Dh4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uoU-nJ-a45">
+                                <rect key="frame" x="2" y="38" width="375" height="647"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="tweetCell" rowHeight="79" id="AVh-zs-Iz4" customClass="TweetTableViewCell" customModule="BestProject" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="79"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AVh-zs-Iz4" id="c0z-YH-6Bi">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="78.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tweet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25a-qk-ua8">
+                                                    <rect key="frame" x="28" y="11" width="332" height="23"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="86U-tD-C0b">
+                                                    <rect key="frame" x="53" y="47" width="18" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HYd-Kx-eg7">
+                                                    <rect key="frame" x="114" y="48" width="11" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="afK-Og-kUk">
+                                                    <rect key="frame" x="28" y="48" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="Ayb-ys-lNR"/>
+                                                        <constraint firstAttribute="height" constant="20" id="M62-SI-uq5"/>
+                                                    </constraints>
+                                                    <state key="normal" image="like"/>
+                                                    <connections>
+                                                        <action selector="likedPressed:" destination="AVh-zs-Iz4" eventType="touchUpInside" id="scB-br-glr"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="afK-Og-kUk" firstAttribute="leading" secondItem="c0z-YH-6Bi" secondAttribute="leadingMargin" constant="13" id="1DF-pt-tD3"/>
+                                                <constraint firstItem="25a-qk-ua8" firstAttribute="trailing" secondItem="c0z-YH-6Bi" secondAttribute="trailingMargin" id="DfX-4H-0kh"/>
+                                                <constraint firstItem="25a-qk-ua8" firstAttribute="leading" secondItem="c0z-YH-6Bi" secondAttribute="leadingMargin" constant="13" id="Efp-kM-jvQ"/>
+                                                <constraint firstItem="HYd-Kx-eg7" firstAttribute="leading" secondItem="c0z-YH-6Bi" secondAttribute="leading" constant="114" id="F66-kJ-y6V"/>
+                                                <constraint firstItem="afK-Og-kUk" firstAttribute="bottom" secondItem="c0z-YH-6Bi" secondAttribute="bottomMargin" id="WO6-rm-TEU"/>
+                                                <constraint firstItem="25a-qk-ua8" firstAttribute="top" secondItem="c0z-YH-6Bi" secondAttribute="topMargin" id="giA-KB-tJV"/>
+                                                <constraint firstAttribute="trailing" secondItem="HYd-Kx-eg7" secondAttribute="trailing" constant="250" id="mKe-KC-nhR"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dislikesLabel" destination="HYd-Kx-eg7" id="GNt-Op-XIf"/>
+                                            <outlet property="liked" destination="afK-Og-kUk" id="a3S-A0-XWE"/>
+                                            <outlet property="likesLabel" destination="86U-tD-C0b" id="isa-Za-bCx"/>
+                                            <outlet property="tweetText" destination="25a-qk-ua8" id="DgU-0i-gdV"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="SCF-xU-U95" id="CrQ-zI-Hne"/>
+                                    <outlet property="delegate" destination="SCF-xU-U95" id="gcA-hM-LMV"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="C3L-a7-XYn"/>
                     </view>
                     <connections>
+                        <outlet property="tableView" destination="uoU-nJ-a45" id="Db7-Ox-2mu"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="signOutSegue" id="ZXB-VV-AhA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bjC-6H-mCk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2671" y="133"/>
+            <point key="canvasLocation" x="2669.5999999999999" y="132.68365817091455"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tTG-hM-So3">
@@ -245,9 +315,10 @@
     </scenes>
     <resources>
         <image name="887171_music_512x512" width="512" height="512"/>
+        <image name="like" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Eo2-uW-ggC"/>
+        <segue reference="JXo-wU-4Mi"/>
         <segue reference="ZXB-VV-AhA"/>
     </inferredMetricsTieBreakers>
 </document>
