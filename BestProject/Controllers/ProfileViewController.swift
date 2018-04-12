@@ -9,12 +9,15 @@
 import UIKit
 import Firebase
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     
     @IBOutlet weak var tableView: UITableView!
     let tweetRef = Database.database().reference().child("tweets")
     var tweets = [Tweet]()
+    var currentTweets = [Tweet]()
+    
+    @IBOutlet weak var searchBar: UISearchBar!
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -22,7 +25,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         var items = [UIBarButtonItem]()
         self.navigationController?.setToolbarHidden(false, animated: animated)
         let signOutBtn = UIBarButtonItem(title: "Sign out", style: .plain, target: self, action: #selector(signOut))
-        
         let addTweetBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTweet))
         let showProfileBtn = UIBarButtonItem(title: "My Profile", style: .plain, target: self, action: nil)
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -53,6 +55,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.tweets.insert(tweet, at: 0)
                 
             }
+            
+            self.currentTweets = self.tweets
+            print(self.tweets.count)
             self.tableView.reloadData()
         })
         
@@ -60,22 +65,19 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tweets.count
+        return currentTweets.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tweetCell", for: indexPath) as! TweetTableViewCell
-        cell.tweet = tweets[indexPath.row]
+        cell.tweet = currentTweets[indexPath.row]
         return cell
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
-        let tweetForDeletion = tweets[indexPath.row]
+        let tweetForDeletion = currentTweets[indexPath.row]
         let currentUserEmail = Auth.auth().currentUser?.email
         if editingStyle == .delete{
             if currentUserEmail == tweetForDeletion.author{
@@ -95,15 +97,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
 
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationItem.setHidesBackButton(true, animated: true)
-        
         guard let user = Auth.auth().currentUser?.displayName else{ return }
         self.navigationItem.title = user
-        
-        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.reloadData()
@@ -154,6 +152,21 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         alertController.addAction(cancelAction)
         
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        guard !searchText.isEmpty else{
+            currentTweets = tweets
+            tableView.reloadData()
+            return
+        }
+        
+        currentTweets = tweets.filter({ (tweet) -> Bool in
+            
+            return tweet.hashtag.lowercased().contains(searchText.lowercased())
+        })
+        tableView.reloadData()
     }
 
 }
