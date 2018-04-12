@@ -26,7 +26,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationController?.setToolbarHidden(false, animated: animated)
         let signOutBtn = UIBarButtonItem(title: "Sign out", style: .plain, target: self, action: #selector(signOut))
         let addTweetBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTweet))
-        let showProfileBtn = UIBarButtonItem(title: "My Profile", style: .plain, target: self, action: nil)
+        let showProfileBtn = UIBarButtonItem(title: "My Profile", style: .plain, target: self, action: #selector(editProfile))
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         items.append(signOutBtn)
         items.append(flexibleSpace)
@@ -37,15 +37,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated);
-        self.navigationController?.setToolbarHidden(true, animated: animated)
-        
-    }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        self.navigationController?.setToolbarHidden(false, animated: animated)
         tweetRef.observe(.value, with: {(snapshot) in
             self.tweets.removeAll()
             
@@ -57,7 +52,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
             
             self.currentTweets = self.tweets
-            print(self.tweets.count)
             self.tableView.reloadData()
         })
         
@@ -105,7 +99,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.reloadData()
-        tableView.allowsMultipleSelection = true
     }
 
     @objc func addTweet(){
@@ -120,6 +113,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         } catch{
             print(error)
         }
+    }
+    
+    @objc func editProfile(){
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
+        self.present(nextViewController, animated:true, completion:nil)
     }
     
     func createTweetAlert(){

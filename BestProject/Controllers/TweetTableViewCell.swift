@@ -22,7 +22,6 @@ class TweetTableViewCell: UITableViewCell {
             tweetText.text = tweet.text + "\n" + tweet.hashtag
             authorLabel.text = "by " + tweet.author
             dateLabel.text = tweet.date
-            print("Success")
         }
     }
     

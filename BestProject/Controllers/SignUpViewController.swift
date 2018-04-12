@@ -50,7 +50,8 @@ class SignUpViewController: UIViewController {
         
         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
             if error == nil {
-                let userInfo = ["e-mail" : email,
+                let userInfo = ["id" : user?.uid,
+                                "e-mail" : email,
                                 "name" : name,
                                 "surname" : surname,
                                 "dateOfBirth" : dateOfBirth]
@@ -66,8 +67,7 @@ class SignUpViewController: UIViewController {
                 return
             }
             guard let user = user else{ return }
-            print(user.email ?? "MISSING EMAIL")
-            print(user.uid)
+            
             
             let changeRequest = user.createProfileChangeRequest()
             changeRequest.displayName = name

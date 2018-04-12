@@ -45,12 +45,7 @@ class LogInViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
                 return
             }
-            guard let user = user else{
-                return
-            }
-            print(user.email ?? "MISSING EMAIL")
-            print(user.displayName ?? "MISSING DISPLAY NAME")
-            print(user.uid)
+            
             
             self.performSegue(withIdentifier: "loginSegue", sender: nil)
             

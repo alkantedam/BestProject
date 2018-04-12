@@ -11,6 +11,7 @@
 		C73E5F87207E5F59008A8721 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73E5F86207E5F59008A8721 /* Tweet.swift */; };
 		C73E5F89207E7158008A8721 /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73E5F88207E7158008A8721 /* TweetTableViewCell.swift */; };
 		C7CE9422207FB1360000CCE7 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CE9421207FB1360000CCE7 /* MainViewController.swift */; };
+		C7CE9424207FCB340000CCE7 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CE9423207FCB340000CCE7 /* EditViewController.swift */; };
 		C7FBF960207CEBE100862D9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FBF95F207CEBE100862D9D /* AppDelegate.swift */; };
 		C7FBF965207CEBE100862D9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7FBF963207CEBE100862D9D /* Main.storyboard */; };
 		C7FBF968207CEBE200862D9D /* BestProject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7FBF966207CEBE200862D9D /* BestProject.xcdatamodeld */; };
@@ -27,6 +28,7 @@
 		C73E5F86207E5F59008A8721 /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		C73E5F88207E7158008A8721 /* TweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		C7CE9421207FB1360000CCE7 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		C7CE9423207FCB340000CCE7 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		C7FBF95C207CEBE100862D9D /* BestProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7FBF95F207CEBE100862D9D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7FBF964207CEBE100862D9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				C73E5F86207E5F59008A8721 /* Tweet.swift */,
 				C73E5F88207E7158008A8721 /* TweetTableViewCell.swift */,
 				C7CE9421207FB1360000CCE7 /* MainViewController.swift */,
+				C7CE9423207FCB340000CCE7 /* EditViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 				C7FBF968207CEBE200862D9D /* BestProject.xcdatamodeld in Sources */,
 				C73E5F89207E7158008A8721 /* TweetTableViewCell.swift in Sources */,
 				C7CE9422207FB1360000CCE7 /* MainViewController.swift in Sources */,
+				C7CE9424207FCB340000CCE7 /* EditViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
