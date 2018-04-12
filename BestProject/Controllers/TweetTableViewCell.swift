@@ -13,16 +13,15 @@ class TweetTableViewCell: UITableViewCell {
    
     @IBOutlet weak var tweetText: UILabel!
     
-    @IBOutlet weak var dislikesLabel: UILabel!
-    @IBOutlet weak var likesLabel: UILabel!
-    @IBOutlet weak var liked: UIButton!
-    @IBOutlet weak var disliked: UIButton!
+    @IBOutlet weak var authorLabel: UILabel!
+    
+    @IBOutlet weak var dateLabel: UILabel!
     
     var tweet: Tweet! {
         didSet{
-            tweetText.text = tweet.text
-            likesLabel.text = String(tweet.likes)
-            dislikesLabel.text = tweet.author
+            tweetText.text = tweet.text + "\n" + tweet.hashtag
+            authorLabel.text = "by " + tweet.author
+            dateLabel.text = tweet.date
             print("Success")
         }
     }
@@ -35,6 +34,12 @@ class TweetTableViewCell: UITableViewCell {
     }
     override func awakeFromNib() {
         super.awakeFromNib()
+        tweetText.numberOfLines = 10
+        authorLabel.minimumScaleFactor = 10/UIFont.labelFontSize
+        authorLabel.adjustsFontSizeToFitWidth = true
+        dateLabel.minimumScaleFactor = 10/UIFont.labelFontSize
+        dateLabel.adjustsFontSizeToFitWidth = true
+        
         // Initialization code
     }
 

@@ -22,8 +22,10 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         sPasswordTextField.isSecureTextEntry = true
     }
+   
 
     
     @IBAction func signupPressed(_ sender: UIButton) {

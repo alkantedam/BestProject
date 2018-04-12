@@ -16,6 +16,32 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     let tweetRef = Database.database().reference().child("tweets")
     var tweets = [Tweet]()
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated);
+        var items = [UIBarButtonItem]()
+        self.navigationController?.setToolbarHidden(false, animated: animated)
+        let signOutBtn = UIBarButtonItem(title: "Sign out", style: .plain, target: self, action: #selector(signOut))
+        
+        let addTweetBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTweet))
+        let showProfileBtn = UIBarButtonItem(title: "My Profile", style: .plain, target: self, action: nil)
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        items.append(signOutBtn)
+        items.append(flexibleSpace)
+        items.append(addTweetBtn)
+        items.append(flexibleSpace)
+        items.append(showProfileBtn)
+        self.toolbarItems = items
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated);
+        self.navigationController?.setToolbarHidden(true, animated: animated)
+        
+    }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         tweetRef.observe(.value, with: {(snapshot) in
@@ -43,25 +69,45 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         return cell
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        let tweetForDeletion = tweets[indexPath.row]
+        let currentUserEmail = Auth.auth().currentUser?.email
+        if editingStyle == .delete{
+            if currentUserEmail == tweetForDeletion.author{
+                let id = tweetForDeletion.id
+                tweetRef.child(id).setValue(nil)
+            }
+            else{
+                let alertController = UIAlertController(title: "Error", message: "You can't delete other users' tweets", preferredStyle: UIAlertControllerStyle.alert)
+                let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: {
+                    (action : UIAlertAction!) -> Void in })
+                alertController.addAction(cancelAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
+            
+        }
+    }
+    
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationItem.setHidesBackButton(true, animated: true)
-        let signOutBtn = UIBarButtonItem(title: "Sign out", style: .plain, target: self, action: #selector(signOut))
-        self.navigationItem.rightBarButtonItem = signOutBtn
+        
         guard let user = Auth.auth().currentUser?.displayName else{ return }
         self.navigationItem.title = user
         
-        let addButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 100, y: self.view.frame.height - 100), size: CGSize(width: 80, height: 80)))
-        let addImage = UIImage(named: "add.png")
-        addButton.setImage(addImage, for: .normal)
-        addButton.addTarget(self, action: #selector(addTweet), for: .touchUpInside)
-        self.navigationController?.view.addSubview(addButton)
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.reloadData()
+        tableView.allowsMultipleSelection = true
     }
 
     @objc func addTweet(){
@@ -89,18 +135,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             
             let currentUserEmail = Auth.auth().currentUser?.email
-            let newTweet = Tweet(tweetTextField.text!, currentUserEmail!, hashtagTextField.text!)
+            let date = Date()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd.MM.yyyy"
+            let currentDate = formatter.string(from: date)
+            
+            let newTweet = Tweet(tweetTextField.text!, currentUserEmail!, hashtagTextField.text!, currentDate)
             newTweet.save()
-            /*let queryRef = Database.database().reference().child("users")
-            queryRef.child((Auth.auth().currentUser?.uid)!).observe(.value, with: {(snapshot) -> Void in
-                if let usersDictionary = snapshot.value as? [String:Any] {
-                    let currentUserName = usersDictionary["name"] as? String ?? ""
-                    let newTweet = Tweet(tweetTextField.text!, currentUserName, hashtagTextField.text!)
-                    newTweet.save()
-                    print("Success!\(currentUserName)")
-                }
-                
-        })*/
             
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: {

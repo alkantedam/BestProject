@@ -12,15 +12,18 @@ import Firebase
 class Tweet{
     var text: String = ""
     var author : String = ""
-    var likes = 0
-    var dislikes = 0
     var hashtag: String = ""
+    var date: String = ""
+    var id: String = ""
     let tweetRef: DatabaseReference!
-    init(_ text: String, _ author: String, _ hashtag: String){
+    init(_ text: String, _ author: String, _ hashtag: String, _ date: String, _ id: String = ""){
         self.text = text
         self.author = author
         self.hashtag = hashtag
+        self.date = date
+        
         tweetRef = Database.database().reference().child("tweets").childByAutoId()
+        self.id = tweetRef.key
     }
     
     init (snapshot: DataSnapshot){
@@ -29,8 +32,8 @@ class Tweet{
             text = value["tweetText"] as! String
             author = value["author"] as! String
             hashtag = value["hashtag"] as! String
-            likes = value["likes"] as! Int
-            dislikes = value["dislikes"] as! Int
+            date = value["date"] as! String
+            id = value["id"] as! String
         }
     }
     
@@ -44,8 +47,8 @@ class Tweet{
             "tweetText" : text,
             "author" : author,
             "hashtag" : hashtag,
-            "likes" : likes,
-            "dislikes" : dislikes
+            "date" : date,
+            "id" : id
         ]
     }
 }

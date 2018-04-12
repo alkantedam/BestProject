@@ -17,8 +17,10 @@ class LogInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         lPasswordTextField.isSecureTextEntry = true
     }
+    
     
     @IBAction func loginPressed(_ sender: UIButton) {
         guard let email = lEmailTextField.text,
