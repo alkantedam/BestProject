@@ -25,12 +25,6 @@ class TweetTableViewCell: UITableViewCell {
         }
     }
     
-    @IBAction func likedPressed(_ sender: UIButton) {
-    }
-    
-    
-    @IBAction func dislikePressed(_ sender: UIButton) {
-    }
     override func awakeFromNib() {
         super.awakeFromNib()
         tweetText.numberOfLines = 10
@@ -39,7 +33,7 @@ class TweetTableViewCell: UITableViewCell {
         dateLabel.minimumScaleFactor = 10/UIFont.labelFontSize
         dateLabel.adjustsFontSizeToFitWidth = true
         
-        // Initialization code
+      
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

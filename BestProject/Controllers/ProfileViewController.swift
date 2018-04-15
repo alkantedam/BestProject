@@ -11,14 +11,32 @@ import Firebase
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
+    //Creationg outlets
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    
+    //Creating variables
+    
     let tweetRef = Database.database().reference().child("tweets")
     var tweets = [Tweet]()
     var currentTweets = [Tweet]()
     
-    @IBOutlet weak var searchBar: UISearchBar!
+    //Appear functions
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.setToolbarHidden(false, animated: true)
+        self.navigationItem.setHidesBackButton(true, animated: true)
+        guard let user = Auth.auth().currentUser?.displayName else{ return }
+        self.navigationItem.title = user
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.reloadData()
+        
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
@@ -48,15 +66,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let childSnapshot = child as! DataSnapshot
                 let tweet = Tweet(snapshot: childSnapshot)
                 self.tweets.insert(tweet, at: 0)
-                
             }
-            
             self.currentTweets = self.tweets
             self.tableView.reloadData()
         })
         
     }
     
+    //TableView functions
     
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currentTweets.count
@@ -89,39 +106,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    //Creating tweet
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.navigationItem.setHidesBackButton(true, animated: true)
-        guard let user = Auth.auth().currentUser?.displayName else{ return }
-        self.navigationItem.title = user
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.reloadData()
-    }
-
-    @objc func addTweet(){
-        createTweetAlert()
-    }
-    
-    
-    @objc func signOut(){
-        do{
-            try Auth.auth().signOut()
-            self.performSegue(withIdentifier: "signOutSegue", sender: nil)
-        } catch{
-            print(error)
-        }
-    }
-    
-    @objc func editProfile(){
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        
-        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
-        self.present(nextViewController, animated:true, completion:nil)
-    }
-    
     func createTweetAlert(){
         let alertController = UIAlertController(title: "Add New Tweet", message: "", preferredStyle: UIAlertControllerStyle.alert)
         alertController.addTextField { (textField : UITextField!) -> Void in
@@ -153,6 +139,32 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         self.present(alertController, animated: true, completion: nil)
     }
+
+    @objc func addTweet(){
+        createTweetAlert()
+    }
+    
+    //Sign out
+    
+    @objc func signOut(){
+        do{
+            try Auth.auth().signOut()
+            self.performSegue(withIdentifier: "signOutSegue", sender: nil)
+        } catch{
+            print(error)
+        }
+    }
+    
+    //Edit profile
+    
+    @objc func editProfile(){
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "editViewController") as! EditViewController
+        self.present(nextViewController, animated:true, completion:nil)
+    }
+    
+    
+    //Search
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
@@ -161,9 +173,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             tableView.reloadData()
             return
         }
-        
         currentTweets = tweets.filter({ (tweet) -> Bool in
-            
             return tweet.hashtag.lowercased().contains(searchText.lowercased())
         })
         tableView.reloadData()

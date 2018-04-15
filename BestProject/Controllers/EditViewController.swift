@@ -20,8 +20,24 @@ class EditViewController: UIViewController {
     @IBOutlet weak var dateOfBirthTextField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        getData()
         // Do any additional setup after loading the view.
+    }
+    
+    func getData(){
+        let currentUserId = Auth.auth().currentUser?.uid
+        let ref = Database.database().reference().child("user").child(currentUserId!)
+        _ = ref.observe(DataEventType.value, with: {
+            (snapshot) in
+            let infoDict = snapshot.value as! [String: Any]
+            self.nameTextField.text = infoDict["name"] as? String
+            self.nameTextField.becomeFirstResponder()
+            self.nameTextField.selectedTextRange = self.nameTextField.textRange(from: self.nameTextField.beginningOfDocument, to: self.nameTextField.endOfDocument)
+            self.surnameTextField.text = infoDict["surname"] as? String
+            
+            self.dateOfBirthTextField.text = infoDict["dateOfBirth"] as? String
+            
+         })
     }
 
     
@@ -42,21 +58,18 @@ class EditViewController: UIViewController {
         
         userRef.setValue(user)
         
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        
+        /*let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let nextViewController = storyBoard.instantiateViewController(withIdentifier: "tweetsViewController") as! ProfileViewController
         self.present(nextViewController, animated:true, completion:nil)
+ */
+        self.dismiss(animated: true, completion: nil)
     }
     
+    
+    
+    
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
 
 }
